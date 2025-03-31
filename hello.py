@@ -1,115 +1,119 @@
 #-პროექტი 77 - Testing my Twttr 
+import sys
+
 def main():
-    print(shorten(input("Enter a word: ")))
+    greetings = ["hello there", "hi", "goodbye", "exit"]
+    for greeting in greetings:
+        print(f"Input: {greeting} -> Value: ${value(greeting)}")
 
-
-def shorten(word):
-    return ''.join([char for char in word if char not in "AEIOUaeiou"])
-
+def value(greeting):
+    if greeting.startswith("hello"):
+        return 0
+    elif greeting.startswith("h"):
+        return 20
+    else:
+        return 100
 
 if __name__ == "__main__":
     main()
+
 
 #-პროექტი 78 - Back to the Bank
 def main():
-    greeting = input("Enter a greeting: ")
-    print(value(greeting))
-
+    greetings = ["hello there", "hi", "goodbye", "exit"]
+    for greeting in greetings:
+        if greeting.lower() == "exit":
+            break
+        print(f"Input: {greeting} -> Value: ${value(greeting)}")
 
 def value(greeting):
-    if greeting.lower().startswith('hello'):
-        return "$0"
-    elif greeting.lower().startswith('h'):
-        return "$20"
+    greeting = greeting.lower().strip()
+    if greeting.startswith("hello"):
+        return 0
+    elif greeting.startswith("h"):
+        return 20
     else:
-        return "$100"
-
+        return 100
 
 if __name__ == "__main__":
     main()
 
-#-პროექტი 79 - Re-requesting a Vanity Plate 
-def main():
-    plate = input("Enter a vanity plate: ")
-    if is_valid(plate):
-        print("Valid plate")
-    else:
-        print("Invalid plate")
-
-
-def is_valid(s):
-    if len(s) < 2 or len(s) > 6:
-        return False
-    if not s[0].isalpha() or not s[-1].isalpha():
-        return False
-    if any(char.isdigit() for char in s[:2]) or any(char.isdigit() for char in s[1:]):
-        return False
-    if any(char in s[2:] for char in ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"]):
-        return False
-    return True
-
-
-if __name__ == "__main__":
-    main()
 
 #-პროექტი 80 - Refueling
 def main():
-    fraction = input("Enter the fuel fraction (e.g., 1/4): ")
-    percentage = convert(fraction)
-    print(gauge(percentage))
-
+    fractions = ["1/4", "3/4", "1/2", "E", "F"]
+    for fraction in fractions:
+        percentage = convert(fraction)
+        print(gauge(percentage))
 
 def convert(fraction):
-    numerator, denominator = fraction.split('/')
-    return (int(numerator) / int(denominator)) * 100
-
+    try:
+        numerator, denominator = fraction.split('/')
+        percentage = (int(numerator) / int(denominator)) * 100
+        return percentage
+    except ValueError:
+        return -1
 
 def gauge(percentage):
-    if percentage >= 90:
-        return "Full"
-    elif percentage >= 50:
-        return "Half"
-    elif percentage >= 25:
-        return "Low"
+    if percentage == -1:
+        return "Invalid input."
+    elif percentage <= 0:
+        return "E"
+    elif percentage >= 100:
+        return "F"
     else:
-        return "Empty"
-
-
-if __name__ == "__main__":
-    main()
-
- #- პროექტი 81 - Paint Calculator
-def main():
-    length = float(input("Length of your room: "))
-    width = float(input("Width of your room: "))
-    
-    area = calculate_area(length, width)
-    gallons_needed = calculate_gallons(area)
-    
-    print(f"You will need to purchase {gallons_needed} gallons of paint to cover {area} square feet.")
-
-def calculate_area(length, width):
-    return length * width
-
-def calculate_gallons(area):
-    gallon_coverage = 350
-    gallons = area / gallon_coverage
-    return round(gallons)
+        return f"{round(percentage)}%"
 
 if __name__ == "__main__":
     main()
 
-
- #- პროექტი 82 - Self-Checkout
+#- პროექტი 81 - Paint Calculator
 def main():
-    price1, quantity1 = float(input("Enter the price of item 1: ")), int(input("Enter the quantity of item 1: "))
-    price2, quantity2 = float(input("Enter the price of item 2: ")), int(input("Enter the quantity of item 2: "))
-    price3, quantity3 = float(input("Enter the price of item 3: ")), int(input("Enter the quantity of item 3: "))
+    test_input = [
+        (12, 30),  # First room: length=12, width=30
+        (10, 15),  # Second room: length=10, width=15
+        (20, 20)   # Third room: length=20, width=20
+    ]
     
-    subtotal = (price1 * quantity1) + (price2 * quantity2) + (price3 * quantity3)
-    tax = round(subtotal * 0.055, 2)
-    total = subtotal + tax
-    
+    for length, width in test_input:
+        area = (length, width)
+        gallons_needed =(area)
+        print(f"You will need to purchase {gallons_needed} gallons of paint to cover {round(area)} square feet.")
+
+if __name__ == "__main__":
+    main()
+
+#- პროექტი 82 - Self-Checkout
+def calculate_item_total(price, quantity):
+    return price * quantity
+
+def calculate_subtotal(item_totals):
+    return sum(item_totals)
+
+def calculate_tax(subtotal, tax_rate=5.5):
+    return (subtotal * tax_rate) / 100
+
+def calculate_total(subtotal, tax):
+    return subtotal + tax
+
+def main():
+    item_totals = []
+    items = [
+        {'price': 25, 'quantity': 2},
+        {'price': 10, 'quantity': 1},
+        {'price': 4, 'quantity': 1}
+    ]
+
+    for item in items:
+        price = item['price']
+        quantity = item['quantity']
+        item_total = calculate_item_total(price, quantity)
+        item_totals.append(item_total)
+
+    subtotal = calculate_subtotal(item_totals)
+    tax = calculate_tax(subtotal)
+    total = calculate_total(subtotal, tax)
+
     print(f"Subtotal: ${subtotal:.2f}")
     print(f"Tax: ${tax:.2f}")
     print(f"Total: ${total:.2f}")
@@ -117,8 +121,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-   
-   #-პროექტი 83 - Currency Conversion
+#-პროექტი 83 - Currency Conversion
    import requests
 
 def main():
@@ -156,5 +159,4 @@ def compound_interest(P, r, t, n):
     return round(P * (1 + r/n) ** (n * t), 2)
 
 if __name__ == "__main__":
-    main()
-
+    main() 
